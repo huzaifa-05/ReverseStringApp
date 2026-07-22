@@ -1,0 +1,26 @@
+version: 0.0
+os: linux
+
+files:
+  - source: scripts
+    destination: /home/ec2-user/reverse-string-app/scripts
+
+  - source: imageDetail.json
+    destination: /home/ec2-user/reverse-string-app
+
+hooks:
+
+  BeforeInstall:
+    - location: scripts/login_ecr.sh
+      timeout: 300
+      runas: ec2-user
+
+  AfterInstall:
+    - location: scripts/deploy.sh
+      timeout: 900
+      runas: ec2-user
+
+  ValidateService:
+    - location: scripts/healthcheck.sh
+      timeout: 300
+      runas: ec2-user
