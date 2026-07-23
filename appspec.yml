@@ -3,16 +3,26 @@ os: linux
 
 files:
   - source: scripts
-    destination: /home/ec2-user/reverse-string-app/scripts
+    destination: /home/ec2-user/reverse-string-app
 
   - source: imageDetail.json
     destination: /home/ec2-user/reverse-string-app
+
+permissions:
+  - object: /home/ec2-user/reverse-string-app/scripts
+    owner: ec2-user
+    group: ec2-user
+    mode: 755
+    type:
+      - directory
+      - file
 
 hooks:
   AfterInstall:
     - location: scripts/login_ecr.sh
       timeout: 300
       runas: ec2-user
+
     - location: scripts/deploy.sh
       timeout: 900
       runas: ec2-user
